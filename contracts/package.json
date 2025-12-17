@@ -1,0 +1,22 @@
+{
+  "name": "ton-mint-contracts",
+  "version": "1.0.0",
+  "description": "NFT Collection contracts for TON Developer Onboarding",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx blueprint build",
+    "deploy": "npx blueprint run deployNftCollection --testnet --tonconnect",
+    "test": "npx blueprint test"
+  },
+  "keywords": ["ton", "nft", "tolk"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@ton/blueprint": "^0.27.0",
+    "@ton/core": "^0.60.0",
+    "@ton/crypto": "^3.3.0",
+    "@ton/ton": "^15.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}

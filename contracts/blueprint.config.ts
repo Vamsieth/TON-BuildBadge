@@ -1,0 +1,11 @@
+import { Config } from '@ton/blueprint';
+
+export const config: Config = {
+    network: {
+        endpoint: 'https://testnet.toncenter.com/api/v2/jsonRPC',
+        type: 'testnet',
+        version: 'v2',
+        // key: 'your_api_key', // Optional: add TonCenter API key for higher rate limits
+    },
+};
+
