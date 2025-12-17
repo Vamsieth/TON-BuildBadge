@@ -1,0 +1,12 @@
+PORT=3001
+TON_NETWORK=testnet
+# Add your TonCenter API key if needed
+# TONCENTER_API_KEY=your_key
+
+# NFT Collection Address (deployed on testnet)
+# Update this after deploying the collection contract
+COLLECTION_ADDRESS=EQBYiv7_vS560zBsh6Gv-77983rXvp-3vVpX77-vS560zBlA
+
+# Frontend URL for NFT metadata (your ngrok URL)
+FRONTEND_URL=https://your-ngrok-url.ngrok-free.app
+
