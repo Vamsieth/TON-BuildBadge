@@ -1,0 +1,4 @@
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
+# For production, set your deployed manifest URL:
+# NEXT_PUBLIC_MANIFEST_URL=https://yourdomain.com/tonconnect-manifest.json
+
