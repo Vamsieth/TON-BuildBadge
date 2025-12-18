@@ -1,53 +1,91 @@
-# TON Build Badge: Celebrate Your Deployment
+# TON Build Badge
 
-A community-driven platform to celebrate your first steps on TON. Verify your smart contract deployment and claim your exclusive **TON Build Badge** NFT.
+Verify your smart contract deployment and claim an NFT badge. Built for the TON developer community.
 
 ## Project Structure
 
-- `frontend/`: Next.js frontend with TON Connect integration.
-- `backend/`: Express.js backend for deployment checking.
-- `contracts/`: NFT Collection & Item contracts written in **Tolk**.
+```
+ton-mint/
+├── contracts/           # Tolk smart contracts (TEP-62 NFT standard)
+│   ├── NftCollection.tolk
+│   ├── NftItem.tolk
+│   ├── wrappers/        # TypeScript contract wrappers
+│   └── scripts/         # Deploy & mint scripts
+├── backend/             # Express API for verification & minting
+│   └── src/index.ts
+└── frontend/            # Next.js app with TON Connect
+    └── src/app/
+```
 
-## Setup Instructions
+## Quick Start
 
-### Backend
+### 1. Deploy Contracts
 
-1. Navigate to `backend/`
-2. Install dependencies: `npm install`
-3. Copy `env_example` to `.env` and configure: `cp env_example .env`
-4. Start dev server: `npm run dev`
+```bash
+cd contracts
+npm install
+npx blueprint build NftCollection
+npx blueprint build NftItem
+npx blueprint run deployNftCollection --testnet --tonconnect
+```
 
-### Frontend
+### 2. Start Backend
 
-1. Navigate to `frontend/`
-2. Install dependencies: `npm install`
-3. Copy `env_local_example` to `.env.local`: `cp env_local_example .env.local`
-4. Start dev server: `npm run dev`
+```bash
+cd backend
+npm install
+# Set COLLECTION_ADDRESS in .env to your deployed address
+npm run dev
+```
 
-### Contracts
+### 3. Start Frontend
 
-- Smart contracts are located in the `contracts/` directory.
-- They are written in **Tolk**, the modern language for TON.
-- Use [Blueprint](https://github.com/ton-community/blueprint) to deploy them to TON Testnet.
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## How it Works
+## Smart Contracts
 
-1. **Check Deployment**: The user enters their TON contract address in the frontend.
-2. **Validation**: The backend queries the TON blockchain to check if the contract exists and is active (deployed).
-3. **Claim Reward**: If the contract is deployed, the user can connect their wallet via TON Connect and claim a "Developer Badge" NFT.
+Two Tolk contracts implementing the NFT standard:
 
-## Gas & Fees (Testnet)
+| Contract | Standard | Purpose |
+|----------|----------|---------|
+| `NftCollection.tolk` | TEP-62, TEP-64, TEP-66 | Manages collection, mints items, handles royalties |
+| `NftItem.tolk` | TEP-62 | Individual NFT with transfer support |
 
-- **Deployment Check**: Free (off-chain query via TonCenter).
-- **Minting**: Approximately **0.1 TON** is sent in the minting transaction.
-  - ~0.05 TON is used for the NFT item's initial storage and deployment fees.
-  - ~0.05 TON covers the collection contract's processing fees and the remainder is returned to the user (excess).
+**Supported Operations:**
+- `DeployNftItem` (op=1) - Mint new NFT
+- `ChangeOwner` (op=3) - Transfer collection ownership
+- `GetRoyaltyParams` (op=0x693d3950) - Query royalty info
+- `Transfer` (op=0x5fcc3d14) - Transfer NFT item
 
-## NFT Metadata (TEP-64)
+## How It Works
 
-The project uses **Off-chain Metadata** hosted within the Next.js app:
-- **Image**: Uses TON official logo from `ton.org`
-- **Item Metadata**: `/assets/item-metadata.json`
-- **Collection Metadata**: `/assets/collection-metadata.json`
+1. User enters a contract address in the frontend
+2. Backend queries TON testnet to verify the contract is deployed and active
+3. If verified, user connects wallet via TON Connect
+4. Backend generates mint payload, frontend sends the transaction
+5. NFT is minted to the user's wallet
 
-This teaches developers how TON NFTs link on-chain ownership with off-chain assets using a content URI.
+## Gas Costs (Testnet)
+
+| Operation | Cost |
+|-----------|------|
+| Deploy Collection | ~0.05 TON |
+| Mint NFT | ~0.1 TON |
+| Transfer NFT | ~0.05 TON |
+
+## Tech Stack
+
+- **Contracts**: Tolk + Blueprint
+- **Backend**: Express 5, @orbs-network/ton-access
+- **Frontend**: Next.js 16, TailwindCSS 4, @tonconnect/ui-react
+
+## Resources
+
+- [TON Docs](https://docs.ton.org)
+- [Tolk Language](https://docs.ton.org/languages/tolk/overview)
+- [TEP-62 NFT Standard](https://github.com/ton-blockchain/TEPs/blob/master/text/0062-nft-standard.md)
+- [Blueprint](https://github.com/ton-community/blueprint)

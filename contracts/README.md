@@ -1,80 +1,62 @@
-# TON NFT Contracts
+# Contracts
 
-Smart contracts for the TON Developer Onboarding NFT Collection, written in **Tolk**.
+NFT Collection & Item contracts written in Tolk for the TON Build Badge project.
 
-## Prerequisites
+## Standards
 
-1. **Node.js** v22 or later
-2. **TON Wallet** (Tonkeeper recommended) with testnet TON
-3. Get testnet TON from faucet: https://t.me/testgiver_ton_bot
+- **TEP-62**: NFT Standard (collection data, item data, transfers)
+- **TEP-64**: Off-chain metadata (content URIs)
+- **TEP-66**: Royalty params (5% default)
 
-## Project Structure
+## Files
 
 ```
 contracts/
-├── NftCollection.tolk       # Collection contract (TEP-62)
-├── NftItem.tolk             # Item contract (TEP-62)
-├── wrappers/                # TypeScript wrappers
-│   ├── NftCollection.ts
+├── NftCollection.tolk          # Collection contract
+├── NftItem.tolk                # Item contract
+├── wrappers/
+│   ├── NftCollection.ts        # Collection wrapper
 │   ├── NftCollection.compile.ts
-│   ├── NftItem.ts
+│   ├── NftItem.ts              # Item wrapper
 │   └── NftItem.compile.ts
-├── scripts/                 # Deployment scripts
-│   ├── deployNftCollection.ts
-│   └── mintNft.ts
-└── build/                   # Compiled artifacts
+└── scripts/
+    ├── deployNftCollection.ts  # Deploys collection to testnet
+    └── mintNft.ts              # Mints single NFT
 ```
 
-## Installation
+## Setup
 
 ```bash
-cd contracts
 npm install
 ```
 
-## Build Contracts
+Requires Node.js v22+ and a TON wallet with testnet TON.  
+Get testnet TON: https://t.me/testgiver_ton_bot
 
-Compile both contracts:
+## Build
 
 ```bash
 npx blueprint build NftCollection
 npx blueprint build NftItem
 ```
 
-## Deploy to Testnet
-
-### Step 1: Get Testnet TON
-
-1. Open Tonkeeper wallet
-2. Switch to Testnet (Settings → Network → Testnet)
-3. Get free TON from @testgiver_ton_bot on Telegram
-
-### Step 2: Deploy Collection
+## Deploy
 
 ```bash
 npx blueprint run deployNftCollection --testnet --tonconnect
 ```
 
-This will:
-1. Show a QR code
-2. Scan with Tonkeeper
-3. Approve the transaction (~0.05 TON)
-4. Output the deployed collection address
+Scan the QR code with Tonkeeper (testnet mode). Costs ~0.05 TON.
 
-### Step 3: Update Backend
-
-Copy the collection address and update your backend `.env`:
+After deployment, copy the collection address to your backend `.env`:
 
 ```
-COLLECTION_ADDRESS=EQ...your_deployed_address
+COLLECTION_ADDRESS=EQ...
 ```
 
-## Mint an NFT (Manual Test)
+## Mint (Manual Test)
 
-After deployment, you can manually test minting:
-
-1. Update `scripts/mintNft.ts` with your collection address
-2. Run:
+Update `COLLECTION_ADDRESS` in `scripts/mintNft.ts`, then:
 
 ```bash
 npx blueprint run mintNft --testnet --tonconnect
@@ -82,19 +64,49 @@ npx blueprint run mintNft --testnet --tonconnect
 
 ## Contract Details
 
-### NftCollection (TEP-62 + TEP-66)
+### NftCollection
 
-- **Owner**: Can mint new items and transfer ownership
-- **Royalties**: 5% by default (configurable)
-- **Metadata**: Off-chain (TEP-64)
+**Storage:**
+- `ownerAddress` - collection owner
+- `nextItemIndex` - auto-incrementing item counter
+- `content` - collection metadata URI (TEP-64)
+- `nftItemCode` - compiled NftItem bytecode
+- `royaltyFactor/royaltyBase` - royalty percentage (default 5/100)
+- `royaltyAddress` - royalty recipient
 
-### NftItem (TEP-62)
+**Operations:**
 
-- **Transfer**: Standard NFT transfer support
-- **Ownership**: Tracked on-chain
-- **Content**: Off-chain metadata URL
+| Op Code | Name | Access |
+|---------|------|--------|
+| 0x00000001 | DeployNftItem | Anyone |
+| 0x00000003 | ChangeOwner | Owner only |
+| 0x693d3950 | GetRoyaltyParams | Anyone |
 
-## Gas Costs (Testnet)
+**Get Methods:**
+- `get_collection_data()` → (nextItemIndex, content, owner)
+- `get_nft_address_by_index(index)` → item address
+- `get_nft_content(index, individualContent)` → content cell
+- `royalty_params()` → (numerator, denominator, destination)
+
+### NftItem
+
+**Storage (after init):**
+- `index` - item index in collection
+- `collectionAddress` - parent collection
+- `ownerAddress` - current NFT owner
+- `content` - item metadata URI
+
+**Operations:**
+
+| Op Code | Name | Access |
+|---------|------|--------|
+| 0x5fcc3d14 | Transfer | Owner only |
+| 0x2edb1232 | GetStaticData | Anyone |
+
+**Get Methods:**
+- `get_nft_data()` → (initialized, index, collection, owner, content)
+
+## Gas Costs
 
 | Operation | Cost |
 |-----------|------|
@@ -104,9 +116,6 @@ npx blueprint run mintNft --testnet --tonconnect
 
 ## Troubleshooting
 
-**"Wallet not connected"**: Make sure Tonkeeper is on testnet and you've scanned the QR code.
-
-**"Insufficient balance"**: Get more testnet TON from the faucet.
-
-**"Contract not found"**: Wait a few seconds for blockchain confirmation.
-
+- **Wallet not connected**: Switch Tonkeeper to testnet, scan QR again
+- **Insufficient balance**: Get more from @testgiver_ton_bot
+- **Contract not found**: Wait a few seconds for confirmation
