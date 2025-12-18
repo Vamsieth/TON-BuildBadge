@@ -1,26 +1,29 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ton-blue: #0088CC;
+  --color-ton-dark: #101216;
+  --color-ton-gray: #728a96;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply antialiased bg-white text-ton-dark;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3 text-base font-semibold leading-6 text-white transition-all duration-200 bg-ton-blue border border-transparent rounded-full hover:bg-[#007AB8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ton-blue shadow-lg shadow-blue-500/20;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-8 py-3 text-base font-semibold leading-6 text-ton-blue transition-all duration-200 bg-blue-50 border border-transparent rounded-full hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-100;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
