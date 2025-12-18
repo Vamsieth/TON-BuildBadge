@@ -96,7 +96,7 @@ app.post('/mint', async (req: Request, res: Response) => {
 
     // 3. Prepare item content (TEP-64 off-chain URI)
     // Use the frontend URL for metadata (set FRONTEND_URL in .env)
-    const frontendUrl = process.env.FRONTEND_URL || 'https://a87ed5b4afa9.ngrok-free.app';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://ton-build-badge.vercel.app';
     const metadataUri = `${frontendUrl}/assets/item-metadata.json`;
     
     const itemContent = beginCell()
