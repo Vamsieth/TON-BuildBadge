@@ -183,12 +183,6 @@ export default function Home() {
                 <h3 className="font-bold text-slate-800">{example.title}</h3>
                 <p className="text-sm text-slate-600 mt-1 mb-3">{example.description}</p>
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => setContractAddress(example.address)}
-                    className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 py-1 px-3 rounded"
-                  >
-                    Use Address
-                  </button>
                   <a
                     href={example.docs}
                     target="_blank"
