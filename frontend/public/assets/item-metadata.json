@@ -1,19 +1,19 @@
 {
-  "name": "TON Developer Badge",
-  "description": "Awarded for successfully deploying a smart contract on TON Testnet. This badge proves you're a TON developer!",
+  "name": "TON Build Badge",
+  "description": "Proof of deployment and community contribution. You have successfully deployed a smart contract on TON!",
   "image": "https://ton.org/download/ton_symbol.png",
   "attributes": [
     {
       "trait_type": "Achievement",
-      "value": "Contract Deployed"
+      "value": "Successful Deployment"
     },
     {
       "trait_type": "Network",
       "value": "TON Testnet"
     },
     {
-      "trait_type": "Issued By",
-      "value": "TON Developer Reward"
+      "trait_type": "Community",
+      "value": "TON Builders"
     }
   ]
 }

@@ -1,6 +1,6 @@
-# TON Developer Reward: Deployment Checker & NFT Badge
+# TON Build Badge: Celebrate Your Deployment
 
-This project allows developers to check if their smart contract is deployed on TON Testnet and claim a "Developer Badge" NFT as a reward.
+A community-driven platform to celebrate your first steps on TON. Verify your smart contract deployment and claim your exclusive **TON Build Badge** NFT.
 
 ## Project Structure
 

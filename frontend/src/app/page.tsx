@@ -91,10 +91,10 @@ export default function Home() {
         <header className="flex justify-between items-center mb-12">
           <div>
             <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-              TON Developer Reward
+              TON Build Badge
             </h1>
             <p className="mt-2 text-slate-600">
-              Check if your contract is deployed on TON Testnet and claim your <strong>"Developer Badge"</strong> NFT.
+              Celebrate your journey on TON. Verify your deployment and claim your <strong>Build Badge</strong> NFT.
             </p>
           </div>
           <TonConnectButton />
@@ -137,7 +137,7 @@ export default function Home() {
               className={`w-24 h-24 ${verificationResult?.verified ? 'opacity-100' : 'opacity-30 grayscale'}`}
             />
             <div className="text-[10px] text-slate-500 mt-2 text-center">
-              NFT: TON Developer Badge
+              NFT: TON Build Badge
             </div>
           </div>
         </section>
@@ -167,7 +167,7 @@ export default function Home() {
                   disabled={minting}
                   className="bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
                 >
-                  {minting ? 'Minting...' : 'Claim NFT Badge'}
+                  {minting ? 'Minting...' : 'Claim Build Badge'}
                 </button>
               )}
             </div>
@@ -205,7 +205,7 @@ export default function Home() {
 
         {/* Footer Links */}
         <footer className="text-center text-slate-500 text-sm">
-          <p>Built for TON Ecosystem Onboarding</p>
+          <p>A Community Initiative for TON Builders</p>
           <div className="mt-2 flex justify-center space-x-4">
             <a href="https://docs.ton.org" target="_blank" className="hover:text-blue-600">TON Docs</a>
             <a href="https://docs.ton.org/languages/tolk/overview" target="_blank" className="hover:text-blue-600">Tolk Language</a>

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TON Developer Reward",
-  description: "Check your contract deployment and claim your Developer Badge NFT",
+  title: "TON Build Badge",
+  description: "Verify your deployment and join the TON developer community",
 };
 
 export default function RootLayout({
